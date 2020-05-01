@@ -16,7 +16,7 @@ const sig = b64(
 
 if(sig == tokenParts[2]) { // compare our generated signature to the signature recieved from VATUSA.
     const token = JSON.parse(Buffer.from(tokenParts[1], 'base64'));
-    if(token.iss === 'VATUSA' && token.aud === 'ZAB') {
+    if(token.iss === 'VATUSA' && token.aud === '') { // Update token.aud to your ARTCC
         const {data} = await axios.get(`https://login.vatusa.net/uls/v2/info?token=${tokenParts[1]}`).catch(err => {
             console.log(err); // you should probably handle the error better than this.
             return false;
