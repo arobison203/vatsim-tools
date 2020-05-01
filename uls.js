@@ -3,8 +3,11 @@
  * 
  * @var THE_TOKEN: Token recieved from VATUSA
  * @var JWK_KEY: "k" field in the JSON JWK provided by VATUSA
+ * 
+ * @requires axios (npm install axios)
  */
 
+import axios from 'axios';
 
 const tokenParts = THE_TOKEN.split('.');
 
@@ -27,16 +30,13 @@ if(sig == tokenParts[2]) { // compare our generated signature to the signature r
             return;
         } else {
             console.log('Bad response from VATUSA, discarding.');
-            res.status(500).json({errCode: 'ERR_BAD_VATUSA'});
             return;
         }
     } else {
-        console.log('Token not from VATUSA/ZAB, discarding.');
-        res.status(500).json({errCode: 'ERR_BAD_TOKEN'});
+        console.log('Token not from VATUSA/ARTCC, discarding.');
         return;
     }
 } else {
     console.log(`Our signature didn't match VATUSA, discarding.`);
-    res.status(500).json({errCode: 'ERR_BAD_SIG'});
     return;
 }
